@@ -10,96 +10,69 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
     <style>
         body { background-color: #020617; color: #f8fafc; font-family: 'Inter', sans-serif; }
-        .glass-card { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.05); }
-        .neon-border { border: 1px solid #ef4444; box-shadow: 0 0 20px rgba(239, 68, 68, 0.15); }
-        .admin-btn { font-size: 10px; color: #475569; transition: all 0.3s; }
-        .admin-btn:hover { color: #ef4444; }
+        .glass-card { background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.05); }
+        .neon-border { border: 1px solid #ef4444; box-shadow: 0 0 15px rgba(239, 68, 68, 0.1); }
     </style>
 </head>
 <body class="p-4 md:p-10">
 
     <header class="max-w-6xl mx-auto text-center mb-12">
-        <h1 class="text-5xl md:text-7xl font-black text-white mb-4 italic tracking-tighter uppercase">
-            GHOST<span class="text-red-600">CHECK</span><span class="text-sky-500 text-2xl lowercase italic">.net</span>
+        <h1 class="text-5xl md:text-7xl font-black text-white italic uppercase">
+            GHOST<span class="text-red-600">CHECK</span><span class="text-sky-500 text-2xl">.net</span>
         </h1>
-        <p class="text-slate-500 text-sm font-bold tracking-[0.3em] uppercase">National Public Registry of Contractor Fraud</p>
+        <p class="text-slate-500 text-xs font-bold tracking-[0.3em] uppercase mt-2">National Public Registry of Contractor Fraud</p>
     </header>
 
     <main class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10">
         <div class="glass-card p-8 rounded-[2rem] border-2 border-slate-800">
-            <h2 class="text-2xl font-bold mb-6 flex items-center gap-3">
-                <i class="fas fa-search text-sky-500"></i> SCAN CONTRACTOR
-            </h2>
-            <div class="relative mb-8">
-                <input type="text" id="searchInput" placeholder="Search Phone Number or Name..." 
-                    class="w-full bg-black border-2 border-slate-800 rounded-2xl py-5 px-14 focus:outline-none focus:border-sky-500 text-white font-mono text-lg transition-all">
-                <i class="fas fa-user-shield absolute left-5 top-6 text-slate-600"></i>
-            </div>
-            <div id="searchResult" class="hidden animate-pulse"></div>
-            <div id="noResult" class="text-center py-12 border-2 border-dashed border-slate-900 rounded-3xl">
-                <i class="fas fa-check-double text-5xl text-slate-800 mb-4"></i>
-                <p class="text-slate-600 font-medium tracking-tight italic">Scan our live database for prior complaints.</p>
-            </div>
+            <h2 class="text-2xl font-bold mb-6 flex items-center gap-3"><i class="fas fa-search text-sky-500"></i> SCAN DATABASE</h2>
+            <input type="text" id="searchInput" placeholder="Search Phone Number..." class="w-full bg-black border-2 border-slate-800 rounded-2xl py-4 px-6 focus:border-sky-500 text-white font-mono outline-none">
+            <div id="searchResult" class="mt-6 hidden"></div>
+            <div id="noResult" class="text-center py-10 opacity-50 italic">Enter a number to verify...</div>
         </div>
 
         <div class="glass-card p-8 rounded-[2rem] neon-border">
-            <h2 class="text-2xl font-bold mb-6 text-red-500 flex items-center gap-3">
-                <i class="fas fa-skull-crossbones"></i> FILE A COMPLAINT
-            </h2>
+            <h2 class="text-2xl font-bold mb-6 text-red-500 flex items-center gap-3"><i class="fas fa-skull-crossbones"></i> FILE A COMPLAINT</h2>
             <form id="reportForm" class="space-y-4">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <input type="text" id="contractorName" placeholder="Business/Name" required class="bg-black border border-slate-800 rounded-xl p-4 text-white outline-none focus:border-red-500">
-                    <input type="tel" id="contractorPhone" placeholder="Phone Number (US)" required class="bg-black border border-slate-800 rounded-xl p-4 text-white outline-none focus:border-red-500">
+                <div class="grid grid-cols-2 gap-4">
+                    <input type="text" id="contractorName" placeholder="Name" required class="bg-black border border-slate-800 rounded-xl p-4 text-white outline-none focus:border-red-500">
+                    <input type="tel" id="contractorPhone" placeholder="Phone" required class="bg-black border border-slate-800 rounded-xl p-4 text-white outline-none focus:border-red-500">
                 </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <select id="state" required class="bg-black border border-slate-800 rounded-xl p-4 text-white outline-none focus:border-red-500 scrollbar-hide">
+                <div class="grid grid-cols-2 gap-4">
+                    <select id="state" required class="bg-black border border-slate-800 rounded-xl p-4 text-white outline-none">
                         <option value="">Select State</option>
-                        <option value="Alabama">Alabama</option><option value="Alaska">Alaska</option><option value="Arizona">Arizona</option><option value="Arkansas">Arkansas</option><option value="California">California</option><option value="Colorado">Colorado</option><option value="Connecticut">Connecticut</option><option value="Delaware">Delaware</option><option value="Florida">Florida</option><option value="Georgia">Georgia</option><option value="Hawaii">Hawaii</option><option value="Idaho">Idaho</option><option value="Illinois">Illinois</option><option value="Indiana">Indiana</option><option value="Iowa">Iowa</option><option value="Kansas">Kansas</option><option value="Kentucky">Kentucky</option><option value="Louisiana">Louisiana</option><option value="Maine">Maine</option><option value="Maryland">Maryland</option><option value="Massachusetts">Massachusetts</option><option value="Michigan">Michigan</option><option value="Minnesota">Minnesota</option><option value="Mississippi">Mississippi</option><option value="Missouri">Missouri</option><option value="Montana">Montana</option><option value="Nebraska">Nebraska</option><option value="Nevada">Nevada</option><option value="New Hampshire">New Hampshire</option><option value="New Jersey">New Jersey</option><option value="New Mexico">New Mexico</option><option value="New York">New York</option><option value="North Carolina">North Carolina</option><option value="North Dakota">North Dakota</option><option value="Ohio">Ohio</option><option value="Oklahoma">Oklahoma</option><option value="Oregon">Oregon</option><option value="Pennsylvania">Pennsylvania</option><option value="Rhode Island">Rhode Island</option><option value="South Carolina">South Carolina</option><option value="South Dakota">South Dakota</option><option value="Tennessee">Tennessee</option><option value="Texas">Texas</option><option value="Utah">Utah</option><option value="Vermont">Vermont</option><option value="Virginia">Virginia</option><option value="Washington">Washington</option><option value="West Virginia">West Virginia</option><option value="Wisconsin">Wisconsin</option><option value="Wyoming">Wyoming</option>
-                    </select>
+                        <option value="Alabama">Alabama</option><option value="California">California</option><option value="Florida">Florida</option><option value="New York">New York</option><option value="Texas">Texas</option>
+                        </select>
                     <input type="text" id="city" placeholder="City" required class="bg-black border border-slate-800 rounded-xl p-4 text-white outline-none">
                 </div>
-
                 <select id="incidentType" required class="bg-black border border-slate-800 rounded-xl p-4 w-full text-white outline-none">
-                    <option value="">Problem Type</option>
                     <option value="Ghosted after Deposit">Ghosted after Deposit</option>
-                    <option value="Incomplete/Abandoned Work">Incomplete/Abandoned Work</option>
-                    <option value="Fake Identity/License">Fake Identity/License</option>
-                    <option value="Overcharging/Extortion">Overcharging/Extortion</option>
+                    <option value="Incomplete Work">Incomplete Work</option>
                     <option value="Property Damage">Property Damage</option>
-                    <option value="Unsafe Work Practices">Unsafe Work Practices</option>
-                    <option value="No Permit Pulled">No Permit Pulled</option>
-                    <option value="Threatening Behavior">Threatening Behavior</option>
-                    <option value="Theft of Materials">Theft of Materials</option>
-                    <option value="Insurance Fraud">Insurance Fraud</option>
-                    <option value="Used Inferior Materials">Used Inferior Materials</option>
-                    <option value="Refusing to Pay Subs">Refusing to Pay Subs</option>
                 </select>
-
-                <input type="number" id="lossAmount" placeholder="Verified Financial Loss ($)" required class="bg-black border border-slate-800 rounded-xl p-4 w-full text-white outline-none">
-                <textarea id="story" placeholder="Briefly explain the incident (use specific dates/events)..." rows="3" required class="bg-black border border-slate-800 rounded-xl p-4 w-full text-white outline-none"></textarea>
+                <input type="number" id="lossAmount" placeholder="Loss Amount ($)" required class="bg-black border border-slate-800 rounded-xl p-4 w-full text-white outline-none">
+                <textarea id="story" placeholder="Describe the incident..." rows="3" required class="bg-black border border-slate-800 rounded-xl p-4 w-full text-white outline-none"></textarea>
                 
-                <button type="submit" class="w-full bg-red-600 hover:bg-red-700 text-white font-black py-4 rounded-xl text-lg uppercase tracking-tighter transition-all active:scale-95 shadow-lg shadow-red-900/30">
-                    PUBLISH TO BLACKLIST
-                </button>
+                <div class="flex items-start gap-3 p-2 bg-red-950/20 rounded-lg">
+                    <input type="checkbox" required class="mt-1">
+                    <p class="text-[10px] text-slate-400">I confirm this report is truthful and I take full legal responsibility for its accuracy.</p>
+                </div>
+
+                <button type="submit" class="w-full bg-red-600 hover:bg-red-700 text-white font-black py-4 rounded-xl shadow-lg transition-transform active:scale-95">PUBLISH TO BLACKLIST</button>
             </form>
         </div>
     </main>
 
     <section class="max-w-6xl mx-auto mt-20">
-        <h3 class="text-2xl font-black mb-10 text-slate-400 uppercase tracking-widest border-b border-slate-900 pb-4">Live National Feed</h3>
-        <div id="wallOfShame" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+        <h3 class="text-xl font-black mb-8 text-slate-500 uppercase tracking-widest border-b border-slate-900 pb-4 italic">Live National Feed</h3>
+        <div id="wallOfShame" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-white"></div>
     </section>
-
-    <footer class="text-center mt-32 text-slate-700 text-[10px] uppercase font-bold tracking-widest pb-10">
-        <p>© 2026 GHOSTCHECK NATIONAL REGISTRY | ZERO TOLERANCE POLICY | USA</p>
-    </footer>
 
     <script>
         const firebaseConfig = {
             apiKey: "AIzaSyDRmjWg-qq6mnxFiyLnJijVG9WqMqMmfd4",
             authDomain: "ghost-checker.firebaseapp.com",
-            databaseURL: "https://ghost-checker-default-rtdb.firebaseio.com",
+            databaseURL: "https://ghost-checker-default-rtdb.firebaseio.com", // Sabse zaroori
             projectId: "ghost-checker",
             storageBucket: "ghost-checker.firebasestorage.app",
             messagingSenderId: "545526298101",
@@ -112,54 +85,26 @@
         // Real-time Update
         db.on('value', (snapshot) => {
             const data = snapshot.val();
-            const wallOfShame = document.getElementById('wallOfShame');
-            wallOfShame.innerHTML = '';
-            
+            const wall = document.getElementById('wallOfShame');
+            wall.innerHTML = '';
             if (data) {
                 Object.keys(data).reverse().forEach(key => {
                     const r = data[key];
-                    wallOfShame.innerHTML += `
-                        <div class="glass-card p-6 rounded-3xl border-l-4 border-red-600 hover:bg-slate-900/50 transition-all">
-                            <div class="flex justify-between items-start mb-4">
-                                <h4 class="font-bold text-red-500 text-xl tracking-tight">${r.name}</h4>
-                                <span class="bg-red-500/10 text-red-500 text-xs px-2 py-1 rounded-lg font-black border border-red-500/20">$${r.loss}</span>
-                            </div>
-                            <p class="text-sm text-slate-400 mb-6 italic leading-relaxed">"${r.story}"</p>
-                            <div class="text-[11px] text-slate-500 flex justify-between items-center font-bold">
-                                <span><i class="fas fa-phone mr-1"></i> ${r.phone}</span>
+                    wall.innerHTML += `
+                        <div class="glass-card p-6 rounded-2xl border-l-4 border-red-600">
+                            <h4 class="font-bold text-red-500 text-lg">${r.name}</h4>
+                            <p class="text-xs text-slate-400 my-2 italic">"${r.story}"</p>
+                            <div class="text-[10px] text-slate-500 flex justify-between font-bold">
+                                <span>$${r.loss} Lost</span>
                                 <span>${r.city}, ${r.state}</span>
                             </div>
-                            <div class="mt-4 pt-4 border-t border-slate-900 flex justify-end">
-                                <button onclick="deleteReport('${key}')" class="admin-btn"><i class="fas fa-trash"></i> DELETE (ADMIN)</button>
-                            </div>
+                            <button onclick="deleteR('${key}')" class="text-[8px] mt-4 text-slate-800 hover:text-red-500 uppercase">Delete (Admin)</button>
                         </div>`;
                 });
             }
-
-            // Search Logic
-            document.getElementById('searchInput').oninput = (e) => {
-                const query = e.target.value.toLowerCase();
-                const reports = data ? Object.values(data) : [];
-                const found = reports.find(r => r.phone.includes(query) || r.name.toLowerCase().includes(query));
-                const resultDiv = document.getElementById('searchResult');
-                const noResult = document.getElementById('noResult');
-
-                if(query && found) {
-                    resultDiv.innerHTML = `<div class="bg-red-600/10 border-2 border-red-600 p-6 rounded-2xl">
-                        <h3 class="text-red-600 font-black text-xl mb-1 uppercase tracking-tighter italic">WARNING: BLACKLISTED</h3>
-                        <p class="text-sm text-slate-300">This entity is flagged for <strong>${found.type}</strong>.</p>
-                        <p class="text-[11px] mt-4 text-slate-500 uppercase tracking-widest font-bold">Location: ${found.city}, ${found.state}</p>
-                    </div>`;
-                    resultDiv.classList.remove('hidden');
-                    noResult.classList.add('hidden');
-                } else {
-                    resultDiv.classList.add('hidden');
-                    noResult.classList.remove('hidden');
-                }
-            };
         });
 
-        // Submit Logic
+        // Form Submit
         document.getElementById('reportForm').onsubmit = (e) => {
             e.preventDefault();
             db.push({
@@ -170,19 +115,14 @@
                 type: document.getElementById('incidentType').value,
                 loss: document.getElementById('lossAmount').value,
                 story: document.getElementById('story').value
-            });
-            document.getElementById('reportForm').reset();
-            alert("REPORT PUBLISHED TO GLOBAL REGISTRY.");
+            }).then(() => {
+                alert("PUBLISHED!");
+                document.getElementById('reportForm').reset();
+            }).catch(e => alert("Error: " + e.message));
         };
 
-        // ADMIN DELETE FUNCTION
-        window.deleteReport = (id) => {
-            const pass = prompt("Enter Secret Admin Password:");
-            if(pass === "admin123") { // Password yahan change kar sakta hai
-                firebase.database().ref('reports/' + id).remove();
-            } else {
-                alert("Unauthorized Access!");
-            }
+        window.deleteR = (id) => {
+            if(prompt("Admin Password?") === "admin123") db.child(id).remove();
         };
     </script>
 </body>
